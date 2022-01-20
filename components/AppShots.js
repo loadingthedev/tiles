@@ -7,11 +7,11 @@ SwiperCore.use([Pagination, Autoplay]);
 
 import SectionTitle from "./SectionTitle";
 
-import img1 from "./img/feature/app-img.png";
-import img2 from "/img/feature/app-img2.png";
-import img3 from "/img/feature/app-img3.png";
-import img4 from "/img/feature/app-img4.png";
-import img5 from "/img/feature/app-img5.png";
+import img1 from "../public/img/feature/app-img.png";
+import img2 from "../public/img/feature/app-img2.png";
+import img3 from "../public/img/feature/app-img3.png";
+import img4 from "../public/img/feature/app-img4.png";
+import img5 from "../public/img/feature/app-img5.png";
 import Image from "next/image";
 
 const AppShots = () => {
