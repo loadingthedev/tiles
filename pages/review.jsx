@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import Layout from "../components/Layout";
 import MobileMenu from "../components/MobileMenu";
 import Upload from "../components/Upload";
+import Images from "../components/Images";
 import { filesAtom } from "../lib/recoil-atoms";
 
 export default function review() {
@@ -15,6 +16,7 @@ export default function review() {
   useEffect(() => {
     if (files) {
       files.forEach((file) => {
+        if (!file) return;
         const reader = new FileReader();
         reader.onloadend = () => {
           setPreviews([...previews, reader.result]);
@@ -24,11 +26,12 @@ export default function review() {
     } else {
       setPreviews(null);
     }
-    console.log("files", files);
+    // console.log(previews);
+    // console.log("files", files);
   }, [files]);
 
   return (
-    <Layout pageTitle="Blog Page || Jironis || App Landing React Template">
+    <Layout pageTitle="Robin Tiles">
       <Header />
       <MobileMenu />
       <section className="pt-100">
@@ -38,8 +41,20 @@ export default function review() {
             sm={6}
             className="d-flex flex-column justify-content-center align-items-center"
           >
-            <h4>Pick some photos to get started</h4>
-            <Upload />
+            {previews.length > 0 ? (
+              <div className="TilesConatiner">
+                {previews.map((i, id) => (
+                  <Images url={i} key={id} />
+                ))}
+                <Upload width={200} height={200} />
+              </div>
+            ) : (
+              // <Upload />
+              <>
+                <h4>Pick some photos to get started</h4>
+                <Upload />
+              </>
+            )}
           </Col>
           <Col md={4} sm={6}></Col>
         </Row>

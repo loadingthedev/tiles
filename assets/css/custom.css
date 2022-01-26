@@ -2,3 +2,10 @@
     Custom Stylesheet (Any custom styling you want to apply should be defined here).
 ====================================================================================*/
 
+.TilesConatiner {
+  display: grid;
+  padding-inline: 2rem;
+  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 0.5rem;
+}

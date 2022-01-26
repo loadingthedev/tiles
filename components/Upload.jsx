@@ -5,24 +5,24 @@ import Image from "next/image";
 import { useRecoilState } from "recoil";
 import { filesAtom } from "../lib/recoil-atoms";
 
-export default function Upload(props) {
+export default function Upload({ width, height }) {
   const [files, setfiles] = useRecoilState(filesAtom);
   const ref = useRef(null);
 
   const handleChange = (e) => {
     e.preventDefault();
-    console.log(e.target.files);
     setfiles([...files, e.target.files[0]]);
+    e.target.value = null;
   };
 
   return (
     <>
       <Card
-        style={{ width: "18rem" }}
+        style={{ width: width, minHeight: height }}
         className="text-center"
         onClick={() => ref.current.click()}
       >
-        <Card.Body>
+        <Card.Body className="d-flex flex-column justify-content-center align-center">
           <Image src={upload} alt="" />
           <input
             ref={ref}
