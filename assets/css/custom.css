@@ -9,3 +9,17 @@
   grid-template-columns: repeat(3, 1fr);
   row-gap: 0.5rem;
 }
+
+.TileFrame {
+  width: 250px;
+  height: 250px;
+  z-index: 2;
+}
+
+.TileImage {
+  position: absolute;
+  width: 200px;
+  top: 1rem;
+  min-height: 200px;
+  left: 1.2rem;
+}
