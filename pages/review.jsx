@@ -17,7 +17,19 @@ const tileThumb = [
   },
   {
     name: "bold",
-    path: "/img/title-thumb/classic-thumb.png",
+    path: "/img/title-thumb/bold-thumb.png",
+  },
+  {
+    name: "ever",
+    path: "/img/title-thumb/ever-thumb.png",
+  },
+  {
+    name: "clean",
+    path: "/img/title-thumb/clean-thumb.png",
+  },
+  {
+    name: "edge",
+    path: "/img/title-thumb/clean-thumb.png",
   },
 ];
 
@@ -32,9 +44,9 @@ export default function review() {
         if (!file) return;
         const reader = new FileReader();
         reader.onloadend = () => {
-          setPreviews([...previews, reader.result]);
+          setPreviews([...previews, { id: file.id, file: reader.result }]);
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(file.file);
       });
     } else {
       setPreviews(null);
@@ -50,15 +62,15 @@ export default function review() {
       <section className="pt-100">
         <Row className="tilesContainer">
           <Col md={3} sm={6}>
-            <div className="h-100">
+            <div className="h-100  TileSelectDrawer">
               {tileThumb.map((id, idx) => (
                 <div
-                  className="TiteThumb"
+                  className={`TiteThumb ${frame === id.name && "activeTile"}`}
                   key={idx}
                   onClick={() => setFrame(id.name)}
                 >
                   <Image src={id.path} alt={id.name} width={65} height={65} />
-                  <span>{id.name}</span>
+                  <span className="tileText">{id.name}</span>
                 </div>
               ))}
 
@@ -76,6 +88,7 @@ export default function review() {
           <Col
             md={9}
             sm={6}
+            style={{ backgroundColor: "#eee" }}
             className="d-flex flex-column justify-content-center align-items-center"
           >
             {previews.length > 0 ? (
