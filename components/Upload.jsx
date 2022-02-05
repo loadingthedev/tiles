@@ -11,7 +11,10 @@ export default function Upload({ width, height }) {
 
   const handleChange = (e) => {
     e.preventDefault();
-    setfiles([...files, e.target.files[0]]);
+    setfiles([
+      ...files,
+      { id: e.target.files[0].name, file: e.target.files[0] },
+    ]);
     e.target.value = null;
   };
 
