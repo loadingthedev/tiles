@@ -45,11 +45,11 @@ model User {
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
   image         String?
-  status        String
+  status        String    @default("null")
   accounts      Account[]
-  ip            String
-  mobile        String
-  password      String
+  ip            String    @default("null")
+  mobile        String    @default("null")
+  password      String    @default("null")
   role          ROLE      @default(USER)
   sessions      Session[]
 
