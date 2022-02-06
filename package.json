@@ -10,6 +10,7 @@
     "next": "latest",
     "next-auth": "^4.2.1",
     "next-images": "^1.4.0",
+    "prisma": "^3.9.1",
     "react": "^17.0.2",
     "react-bootstrap": "^1.0.1",
     "react-countup": "^4.3.3",
@@ -27,8 +28,5 @@
     "build": "next build",
     "start": "next start",
     "postinstall": "prisma generate"
-  },
-  "devDependencies": {
-    "prisma": "^3.9.1"
   }
 }
