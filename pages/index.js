@@ -7,8 +7,6 @@ import FunFacts from "../components/FunFacts";
 import CtaTwo from "../components/CtaTwo";
 import CtaThree from "../components/CtaThree";
 import Video from "../components/Video";
-// pages/index.tsx
-import prisma from "../lib/prisma";
 // import Pricing from "../components/Pricing";
 // import AppShots from "../components/AppShots";
 import { useSession, signIn, signOut } from "next-auth/react";
