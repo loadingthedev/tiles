@@ -4,10 +4,8 @@ import NavLinks from "./NavLinks";
 import headerLogo from "../public/img/logo.png";
 import Image from "next/image";
 import Link from "next/link";
-
 const HeaderHome = (props) => {
   const [sticky, setSticky] = useState(false);
-
   const handleScroll = () => {
     if (window.scrollY > 70) {
       setSticky(true);
