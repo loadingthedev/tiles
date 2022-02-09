@@ -3,7 +3,13 @@ import NavLinks from "./NavLinks";
 import headerLogo from "../public/img/logo.png";
 import Image from "next/image";
 import Link from "next/link";
+import { useRecoilValue } from "recoil";
+import { LoginUserAtom } from "../lib/recoil-atoms";
+
 const HeaderHome = (props) => {
+  const val = useRecoilValue(LoginUserAtom);
+
+  console.log(val?.user?.first_name);
   const [sticky, setSticky] = useState(false);
   const handleScroll = () => {
     if (window.scrollY > 70) {
@@ -14,6 +20,7 @@ const HeaderHome = (props) => {
   };
 
   useEffect(() => {
+    const user = "";
     window.addEventListener("scroll", handleScroll);
     mobileMenu();
     return () => {
@@ -78,20 +85,23 @@ const HeaderHome = (props) => {
               </div>
               <div className="col-lg-3 col-md-4 col-sm-5 d-md-block d-none">
                 <div className="urgent-call text-right">
-                  {/* <a href="#" className="btn">
-                    Lets Go
-                  </a> */}
-                  <Link href="/review">
-                    <a className="callActionBtn">Lets Go</a>
-                  </Link>
-                  <Link href="/review">
-                    <a
-                      className="callActionBtn"
-                      style={{ paddingLeft: "0.7rem" }}
-                    >
-                      Login
-                    </a>
-                  </Link>
+                  {val ? (
+                    <>
+                      <span style={{ color: "#fff" }}>Welcome </span>
+                      <Link href="/review">
+                        <a className="callActionBtn">{val?.user?.first_name}</a>
+                      </Link>
+                    </>
+                  ) : (
+                    <Link href="/signin">
+                      <a
+                        className="callActionBtn"
+                        style={{ paddingLeft: "0.7rem" }}
+                      >
+                        Login
+                      </a>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>

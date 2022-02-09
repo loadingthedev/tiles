@@ -15,6 +15,8 @@ import Features from "../components/Features";
 // import Clients from "../components/Clients";
 // import CtaOne from "../components/CtaOne";
 import Footer from "../components/Footer";
+import { useRecoilValue } from "recoil";
+import { LoginUserAtom } from "../lib/recoil-atoms";
 
 const HomePage = () => {
   return (
