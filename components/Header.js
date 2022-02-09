@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import NavLinks from "./NavLinks";
-
 import headerLogo from "../public/img/logo.png";
 import Image from "next/image";
 import Link from "next/link";
@@ -55,7 +54,8 @@ const HeaderHome = (props) => {
               <div className="col-xl-3 col-lg-3 col-md-4 col-6">
                 <div className="logo">
                   <a href="/">
-                    <Image src={headerLogo} alt="jironis" />
+                    {/* <Image src={headerLogo} alt="jironis" /> */}
+                    <p style={{ fontSize: 35, marginTop: 20 }}>StickPix</p>
                   </a>
                 </div>
               </div>
@@ -82,7 +82,15 @@ const HeaderHome = (props) => {
                     Lets Go
                   </a> */}
                   <Link href="/review">
-                    <a className="btn"> Lets Go</a>
+                    <a className="callActionBtn">Lets Go</a>
+                  </Link>
+                  <Link href="/review">
+                    <a
+                      className="callActionBtn"
+                      style={{ paddingLeft: "0.7rem" }}
+                    >
+                      Login
+                    </a>
                   </Link>
                 </div>
               </div>
