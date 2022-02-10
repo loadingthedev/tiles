@@ -203,6 +203,10 @@ body {
   font-size: 14px;
 }
 
+.color {
+  background-color: #eee !important;
+}
+
 .btn.active,
 .btn:hover,
 .btn:focus {
@@ -1065,6 +1069,14 @@ Tiles Animation
 
 .callActionBtn {
   color: #eee;
+}
+
+.checkOutBtn {
+  color: #000;
+}
+
+.checkOutBtn:hover {
+  color: #5b39c9;
 }
 
 .callActionBtn:hover {

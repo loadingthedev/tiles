@@ -26,12 +26,16 @@ export default function Upload({ width, height }) {
       }
     ).then((r) => r.json());
 
-    // setfiles([
-    //   ...files,
-    //   { id: e.target.files[0].name, file: e.target.files[0] },
-    // ]);
+    setfiles([
+      ...files,
+      {
+        id: e.target.files[0].name?.split(".")[0],
+        file: e.target.files[0],
+        uri: data.secure_url,
+      },
+    ]);
 
-    // e.target.value = null;
+    e.target.value = null;
   };
 
   return (

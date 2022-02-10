@@ -7,7 +7,7 @@ import Layout from "../components/Layout";
 import MobileMenu from "../components/MobileMenu";
 import Upload from "../components/Upload";
 import Images from "../components/Images";
-import { filesAtom, frameAtom } from "../lib/recoil-atoms";
+import { filesAtom, frameAtom, pFilesAtom } from "../lib/recoil-atoms";
 import Image from "next/image";
 
 const tileThumb = [
@@ -35,18 +35,24 @@ const tileThumb = [
 
 export default function review() {
   const files = useRecoilValue(filesAtom);
+  const pfiles = useRecoilValue(pFilesAtom);
   const [previews, setPreviews] = useState([]);
   const [frame, setFrame] = useRecoilState(frameAtom);
 
   useEffect(() => {
     if (files) {
       files.forEach((file) => {
-        // if (!file) return;
-        // const reader = new FileReader();
-        // reader.onloadend = () => {
-        //   setPreviews([...previews, { id: file.id, file: reader.result }]);
-        // };
-        // reader.readAsDataURL(file.file);
+        if (file.uri) {
+          setPreviews([...previews, { id: file.id, file: file.uri }]);
+        } else {
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setPreviews([...previews, { id: file.id, file: reader.result }]);
+            // setPreviews([...previews, { id: file.id, file: file.dataUrl }]);
+          };
+          reader.readAsDataURL(file.file);
+        }
       });
     } else {
       setPreviews(null);
@@ -57,7 +63,7 @@ export default function review() {
 
   return (
     <Layout pageTitle="Robin Tiles">
-      <Header />
+      <Header extraClassName="color" page="review" />
       <MobileMenu />
       <section className="pt-100">
         <Row className="tilesContainer">
@@ -83,16 +89,16 @@ export default function review() {
           >
             {previews.length > 0 ? (
               <div className="TilesConatiner">
-                {previews.map((i, id) => (
-                  <Images url={i} key={id} />
+                {previews.map((i, index) => (
+                  <Images url={i} key={index} />
                 ))}
-                <Upload width={200} height={200} />
+                <Upload width={200} height={200} setPreviews={setPreviews} />
               </div>
             ) : (
               // <Upload />
               <>
                 <h4>Pick some photos to get started</h4>
-                <Upload />
+                <Upload setPreviews={setPreviews} />
               </>
             )}
           </Col>
