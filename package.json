@@ -22,6 +22,7 @@
     "react-scroll": "^1.8.0",
     "react-visibility-sensor": "^5.1.1",
     "recoil": "^0.5.2",
+    "recoil-persist": "^4.0.0",
     "swiper": "^6.0.4"
   },
   "proxy": "https://tilesobz.herokuapp.com",

@@ -41,12 +41,12 @@ export default function review() {
   useEffect(() => {
     if (files) {
       files.forEach((file) => {
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setPreviews([...previews, { id: file.id, file: reader.result }]);
-        };
-        reader.readAsDataURL(file.file);
+        // if (!file) return;
+        // const reader = new FileReader();
+        // reader.onloadend = () => {
+        //   setPreviews([...previews, { id: file.id, file: reader.result }]);
+        // };
+        // reader.readAsDataURL(file.file);
       });
     } else {
       setPreviews(null);
@@ -73,16 +73,6 @@ export default function review() {
                   <span className="tileText">{id.name}</span>
                 </div>
               ))}
-
-              {/* <Card>
-                <Card.Body>This is some text within a card body.</Card.Body>
-              </Card>
-              <Card>
-                <Card.Body>This is some text within a card body.</Card.Body>
-              </Card>
-              <Card>
-                <Card.Body>This is some text within a card body.</Card.Body>
-              </Card> */}
             </div>
           </Col>
           <Col
