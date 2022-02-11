@@ -9,11 +9,8 @@ import { MdDelete } from "react-icons/md";
 function Images({ url }) {
   const frame = useRecoilValue(frameAtom);
 
-  const removeframe = (name) => {
-    console.log(name);
-  };
+  const removeframe = (name) => {};
 
-  console.log(url.name);
   return (
     <>
       <div

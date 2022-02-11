@@ -51,9 +51,11 @@ const HeaderHome = (props) => {
   };
 
   return (
-    <header className={`header ${props.extraClassName}`}>
+    <header className={`header `}>
       <div
-        className={`main-header ${sticky === true ? "sticky fadeInDown" : " "}`}
+        className={`main-header ${
+          sticky === true ? "sticky fadeInDown" : " "
+        } ${props.extraClassName}`}
       >
         <div className="main-menu-wrap">
           <div className="container">
@@ -68,7 +70,7 @@ const HeaderHome = (props) => {
               </div>
               <div className="col-xl-6 col-lg-6 col-md-4 col-6 menu-button">
                 <div className="menu--inner-area clearfix">
-                  <div className="menu-wraper">
+                  <div className={`menu-wraper `}>
                     <nav>
                       <div className="header-menu">
                         <div
@@ -87,16 +89,29 @@ const HeaderHome = (props) => {
                 <div className="urgent-call text-right">
                   {val ? (
                     <>
-                      <span style={{ color: "#fff" }}>Welcome </span>
-                      <Link href="/review">
-                        <a className="callActionBtn">{val?.user?.first_name}</a>
-                      </Link>
+                      {props.page === "review" ? (
+                        <>
+                          <Link href="/checkout">
+                            {/* <a className="checkOutBtn">CheckOut</a> */}
+                            <span className="checkOutBtn"> CheckOut</span>
+                          </Link>
+                        </>
+                      ) : (
+                        <>
+                          <span style={{ color: "#fff" }}>Welcome </span>
+                          <Link href="/review">
+                            <a className="callActionBtn">
+                              {val?.user?.first_name}
+                            </a>
+                          </Link>
+                        </>
+                      )}
                     </>
                   ) : (
                     <Link href="/signin">
                       <a
                         className="callActionBtn"
-                        style={{ paddingLeft: "0.7rem" }}
+                        style={{ paddingLeft: "0.7rem", color: "#000" }}
                       >
                         Login
                       </a>
