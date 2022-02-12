@@ -1,155 +1,210 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../components/Layout";
 import MobileMenu from "../components/MobileMenu";
 import Header from "../components/Header";
+import { Card, Col, Form } from "react-bootstrap";
+import { Button } from "react-scroll";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const checkout = () => {
+  const [addForm, setAddForm] = useState({
+    add1: "",
+    add2: "",
+    city: "",
+    state: "",
+    zip: "",
+  });
+  const router = useRouter();
+
+  const BASE_URI = "https://tilesobz.herokuapp.com";
+
+  function loadRazorpay() {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onerror = () => {
+      alert("Razorpay SDK failed to load. Are you online?");
+    };
+    script.onload = async () => {
+      try {
+        // setLoading(true);
+        // const result = await axios.post("/api/order/create", {
+        //   amount: orderAmount + "00",
+        // });
+        const result = await axios.get(`${BASE_URI}/api/order/create`);
+        const { amount, id: order_id, currency } = result.data;
+        // const {
+        //   data: { key: razorpayKey },
+        // } = await axios.get("/get-razorpay-key");
+
+        const options = {
+          key: "rzp_test_rBDudTLHXmz33C",
+          amount: "2000",
+          currency: currency,
+          name: "example name",
+          description: "example transaction",
+          order_id: order_id,
+          handler: async function (response) {
+            const result = await axios.post(`${BASE_URI}/api/order/callback`, {
+              amount: amount,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpayOrderId: response.razorpay_order_id,
+              razorpaySignature: response.razorpay_signature,
+            });
+            alert(result.data.msg);
+            router.push("/");
+            // fetchOrders();
+          },
+          prefill: {
+            name: "example name",
+            email: "email@example.com",
+            contact: "111111",
+          },
+          notes: {
+            address: "example address",
+          },
+          theme: {
+            color: "#80c0f0",
+          },
+        };
+
+        // setLoading(false);
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+      } catch (err) {
+        alert(err);
+        // setLoading(false);
+      }
+    };
+    document.body.appendChild(script);
+  }
+
+  const handleChange = (name) => (e) => {
+    setAddForm({ ...addForm, [name]: e.target.value });
+  };
+
   return (
     <Layout pageTitle="Robin Tiles">
       <Header />
       <MobileMenu />
-      <section className="pt-100">
-        <div class="container">
-          <div class="row m-0">
-            <div class="col-lg-7 pb-5 pe-lg-5">
-              <div class="row">
-                <div class="col-12 p-5">
-                  {" "}
-                  <img
-                    src="https://www.freepnglogos.com/uploads/honda-car-png/honda-car-upcoming-new-honda-cars-india-new-honda-3.png"
-                    alt=""
-                  />{" "}
-                </div>
-                <div class="row m-0 bg-light">
-                  <div class="col-md-4 col-6 ps-30 pe-0 my-4">
-                    <p class="text-muted">Mileage</p>
-                    <p class="h5">
-                      25000<span class="ps-1">Km</span>
-                    </p>
-                  </div>
-                  <div class="col-md-4 col-6 ps-30 my-4">
-                    <p class="text-muted">Transmission</p>
-                    <p class="h5 m-0">Manual</p>
-                  </div>
-                  <div class="col-md-4 col-6 ps-30 my-4">
-                    <p class="text-muted">Drive unit</p>
-                    <p class="h5 m-0">Front</p>
-                  </div>
-                  <div class="col-md-4 col-6 ps-30 my-4">
-                    <p class="text-muted">Body</p>
-                    <p class="h5 m-0">Coupe</p>
-                  </div>
-                  <div class="col-md-4 col-6 ps-30 my-4">
-                    <p class="text-muted">Color</p>
-                    <p class="h5 m-0">White</p>
-                  </div>
-                  <div class="col-md-4 col-6 ps-30 my-4">
-                    <p class="text-muted">Daily UI</p>
-                    <p class="h5 m-0">#002</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-5 p-0 ps-lg-4">
-              <div class="row m-0">
-                <div class="col-12 px-4">
-                  <div class="d-flex align-items-end mt-4 mb-2">
-                    <p class="h4 m-0">
-                      <span class="pe-1">ZAZ</span>
-                      <span class="pe-1">966</span>
-                      <span class="pe-1">B</span>
-                    </p>
-                    <p class="ps-3 textmuted">1L</p>
-                  </div>
-                  <div class="d-flex justify-content-between mb-2">
-                    <p class="textmuted">Qty</p>
-                    <p class="fs-14 fw-bold">1</p>
-                  </div>
-                  <div class="d-flex justify-content-between mb-2">
-                    <p class="textmuted">Subtotal</p>
-                    <p class="fs-14 fw-bold">
-                      <span class="fas fa-dollar-sign pe-1"></span>1,450
-                    </p>
-                  </div>
-                  <div class="d-flex justify-content-between mb-2">
-                    <p class="textmuted">Shipping</p>
-                    <p class="fs-14 fw-bold">Free</p>
-                  </div>
-                  <div class="d-flex justify-content-between mb-2">
-                    <p class="textmuted">promo code</p>
-                    <p class="fs-14 fw-bold">
-                      -<span class="fas fa-dollar-sign px-1"></span>100
-                    </p>
-                  </div>
-                  <div class="d-flex justify-content-between mb-3">
-                    <p class="textmuted fw-bold">Total</p>
-                    <div class="d-flex align-text-top ">
-                      {" "}
-                      <span class="fas fa-dollar-sign mt-1 pe-1 fs-14 "></span>
-                      <span class="h4">1,350</span>{" "}
+      <section style={{ paddingTop: 74, background: "#CAD3C8" }}>
+        <div
+          className="container min-vh-100 p-5"
+          style={{ background: "#fff" }}
+        >
+          <div className="row m-0 justify-content-center align-center">
+            <Card border="primary" className="w-100">
+              <Card.Header>
+                <h3>Checkout</h3>
+              </Card.Header>
+              <Card.Body>
+                <Card.Title>Add Address</Card.Title>
+                <div className="row">
+                  <div className="col-md-8 col-12">
+                    <div className="form-group">
+                      <label htmlFor="inputAddress">Address</label>
+                      <input
+                        type="text"
+                        onChange={handleChange("add1")}
+                        value={addForm.add1}
+                        className="form-control"
+                        id="inputAddress"
+                        placeholder="1234 Main St"
+                      />
                     </div>
-                  </div>
-                </div>
-                {/* <div class="col-12 px-0">
-                  <div class="row bg-light m-0">
-                    <div class="col-12 px-4 my-4">
-                      <p class="fw-bold">payment detail</p>
+                    <div className="form-group">
+                      <label htmlFor="inputAddress2">Address 2</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        onChange={handleChange("add2")}
+                        value={addForm.add2}
+                        id="inputAddress2"
+                        placeholder="Apartment, studio, or floor"
+                      />
                     </div>
-                    <div class="col-12 px-4">
-                      <div class="d-flex mb-4">
-                        {" "}
-                        <span class="">
-                          <p class="text-muted">Card number</p>{" "}
-                          <input
-                            class="form-control"
-                            type="text"
-                            value="4485 6888 2359 1498"
-                            placeholder="1234 5678 9012 3456"
-                          />
-                        </span>
-                        <div class=" w-100 d-flex flex-column align-items-end">
-                          <p class="text-muted">Expires</p>{" "}
-                          <input
-                            class="form-control2"
-                            type="text"
-                            value="01/2020"
-                            placeholder="MM/YYYY"
-                          />
-                        </div>
+                    <div className="form-row">
+                      <div className="form-group col-md-4">
+                        <label htmlFor="inputCity">City</label>
+                        <input
+                          type="text"
+                          onChange={handleChange("city")}
+                          value={addForm.city}
+                          className="form-control"
+                          id="inputCity"
+                        />
                       </div>
-                      <div class="d-flex mb-5">
-                        {" "}
-                        <span class="me-5">
-                          <p class="text-muted">Cardholder name</p>{" "}
-                          <input
-                            class="form-control"
-                            type="text"
-                            value="David J.Frias"
-                            placeholder="Name"
-                          />
-                        </span>
-                        <div class="w-100 d-flex flex-column align-items-end">
-                          <p class="text-muted">CVC</p>{" "}
-                          <input
-                            class="form-control3"
-                            type="text"
-                            value="630"
-                            placeholder="XXX"
-                          />
-                        </div>
+                      <div className="form-group col-md-4">
+                        <label htmlFor="inputState">State</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={addForm.state}
+                          onChange={handleChange("state")}
+                          id="state"
+                        />
+                      </div>
+                      <div className="form-group col-md-4">
+                        <label htmlFor="inputZip">Zip</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          onChange={handleChange("zip")}
+                          value={addForm.zip}
+                          id="inputZip"
+                        />
                       </div>
                     </div>
                   </div>
-                  <div class="row m-0">
-                    <div class="col-12 mb-4 p-0">
-                      <div class="btn btn-primary">
-                        purchase<span class="fas fa-arrow-right ps-2"></span>{" "}
+                  <hr />
+                  <div className="col-md-4 col-12 shadow p-2">
+                    <p>Order Detail</p>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>10 Tile</span>
+                      <div className="">
+                        <span>Rs.</span>
+                        <span>1000</span>
                       </div>
                     </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>Shipping</span>
+                      <div>
+                        <span>Free</span>
+                      </div>
+                    </div>
+                    <hr />
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <strong>Total</strong>
+                      <div>
+                        <span>Rs.1000</span>
+                      </div>
+                    </div>
+                    <button
+                      className="btn"
+                      style={{ padding: 10, float: "right" }}
+                      onClick={loadRazorpay}
+                    >
+                      Place Order
+                    </button>
                   </div>
-                </div> */}
-              </div>
-            </div>
+                </div>
+              </Card.Body>
+            </Card>
           </div>
         </div>
       </section>
