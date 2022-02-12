@@ -1,3 +1,4 @@
+ 
 import React, { useState } from "react";
 import Layout from "../components/Layout";
 import MobileMenu from "../components/MobileMenu";
@@ -82,11 +83,12 @@ const checkout = () => {
   const handleChange = (name) => (e) => {
     setAddForm({ ...addForm, [name]: e.target.value });
   };
-
+ 
   return (
     <Layout pageTitle="Robin Tiles">
       <Header />
       <MobileMenu />
+ 
       <section style={{ paddingTop: 74, background: "#CAD3C8" }}>
         <div
           className="container min-vh-100 p-5"
@@ -205,6 +207,7 @@ const checkout = () => {
                 </div>
               </Card.Body>
             </Card>
+ 
           </div>
         </div>
       </section>
