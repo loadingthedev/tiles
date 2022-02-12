@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
- 
 import { Button, Card, Col, Modal, Offcanvas, Row } from "react-bootstrap";
- 
 import { useRecoilState, useRecoilValue } from "recoil";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -11,9 +9,6 @@ import Upload from "../components/Upload";
 import Images from "../components/Images";
 import { filesAtom, frameAtom, pFilesAtom } from "../lib/recoil-atoms";
 import Image from "next/image";
- 
-import styled from "styled-components";
- 
 
 const tileThumb = [
   {
@@ -43,10 +38,9 @@ export default function review() {
   const pfiles = useRecoilValue(pFilesAtom);
   const [previews, setPreviews] = useState([]);
   const [frame, setFrame] = useRecoilState(frameAtom);
- 
+
   const [show, setShow] = useState(false);
   const [modalShow, setModalShow] = useState(false);
- 
 
   useEffect(() => {
     if (files) {
@@ -74,9 +68,8 @@ export default function review() {
     <Layout pageTitle="Robin Tiles">
       <Header extraClassName="color" page="review" />
       <MobileMenu />
- 
+
       <section style={{ paddingTop: 74 }}>
- 
         <Row className="tilesContainer">
           <Col md={3} sm={6}>
             <div className="h-100  TileSelectDrawer">
