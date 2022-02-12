@@ -807,8 +807,10 @@ Tiles Animation
   left: 0;
   -webkit-transition: background 0.3s;
   transition: background 0.3s;
+ 
   box-shadow: 0 0 10px rgb(0 0 0 / 15%);
   background: #fff;
+ 
 }
 
 .urgent-call span {

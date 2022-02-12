@@ -9,6 +9,7 @@ import { LoginUserAtom } from "../lib/recoil-atoms";
 const HeaderHome = (props) => {
   const val = useRecoilValue(LoginUserAtom);
 
+ 
   const [sticky, setSticky] = useState(false);
   const handleScroll = () => {
     if (window.scrollY > 70) {
@@ -91,12 +92,16 @@ const HeaderHome = (props) => {
                       {props.page === "review" ? (
                         <>
                           <Link href="/checkout">
+ 
                             <a className="checkOutBtn">CheckOut</a>
+ 
                           </Link>
                         </>
                       ) : (
                         <>
+ 
                           <span style={{ color: "#000" }}>Welcome</span>
+ 
                           <Link href="/review">
                             <a className="callActionBtn">
                               {val?.user?.first_name}
