@@ -3,13 +3,12 @@ import NavLinks from "./NavLinks";
 import headerLogo from "../public/img/logo.png";
 import Image from "next/image";
 import Link from "next/link";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { LoginUserAtom } from "../lib/recoil-atoms";
 
 const HeaderHome = (props) => {
-  const val = useRecoilValue(LoginUserAtom);
-
- 
+  // const user = useRecoilValue(LoginUserAtom);
+  const [user, setUser] = useRecoilState(LoginUserAtom);
   const [sticky, setSticky] = useState(false);
   const handleScroll = () => {
     if (window.scrollY > 70) {
@@ -87,24 +86,31 @@ const HeaderHome = (props) => {
               </div>
               <div className="col-lg-3 col-md-4 col-sm-5 d-md-block d-none">
                 <div className="urgent-call text-right">
-                  {val ? (
+                  {user ? (
                     <>
                       {props.page === "review" ? (
                         <>
                           <Link href="/checkout">
- 
                             <a className="checkOutBtn">CheckOut</a>
- 
                           </Link>
                         </>
                       ) : (
                         <>
- 
-                          <span style={{ color: "#000" }}>Welcome</span>
- 
+                          {/* <span style={{ color: "#000" }}>Welcome</span> */}
                           <Link href="/review">
-                            <a className="callActionBtn">
-                              {val?.user?.first_name}
+                            <a
+                              className="callActionBtn"
+                              style={{ color: "#000" }}
+                            >
+                              {user?.user?.first_name}
+                            </a>
+                          </Link>
+                          <Link href="/logout">
+                            <a
+                              className="callActionBtn"
+                              style={{ color: "#000", marginLeft: "1rem" }}
+                            >
+                              logout
                             </a>
                           </Link>
                         </>

@@ -35,8 +35,8 @@ const tileThumb = [
 
 export default function review() {
   const files = useRecoilValue(filesAtom);
-  const pfiles = useRecoilValue(pFilesAtom);
-  const [previews, setPreviews] = useState([]);
+  const [previews, setPreviews] = useRecoilState(pFilesAtom);
+  // const [previews, setPreviews] = useState([]);
   const [frame, setFrame] = useRecoilState(frameAtom);
 
   const [show, setShow] = useState(false);
