@@ -11,6 +11,7 @@ import shape7 from "../public/img/banner/shaps7.png";
 
 import bannerMoc from "../public/img/banner/hero_image.jpg";
 import Image from "next/image";
+import { Link } from "react-scroll";
 
 const Banner = () => {
   return (
@@ -69,9 +70,11 @@ const Banner = () => {
                 {/* <a href="#" className="btn">
                   Download App
                 </a> */}
-                <a href="#" className="btn">
-                  Discover More
+                {/* <Link href="/review"> */}
+                <a href="/review" className="btn">
+                  Lets Go
                 </a>
+                {/* </Link> */}
               </div>
             </Col>
             <Col md={4} lg={5} className="offset-lg-1  offse-xl-2">

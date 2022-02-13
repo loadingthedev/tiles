@@ -9,12 +9,32 @@ export default function Upload({ width, height }) {
   const [files, setfiles] = useRecoilState(filesAtom);
   const ref = useRef(null);
 
-  const handleChange = (e) => {
+  // https://res.cloudinary.com/loadingthelife/image/upload/w_250,h_250,c_fill/v1644495667/Fimage/bretbivguigkdokfkzka.jpg
+
+  const handleChange = async (e) => {
     e.preventDefault();
+
+    const fData = new FormData();
+    fData.append("file", e.target.files[0]);
+    fData.append("upload_preset", "obztile");
+
+    const data = await fetch(
+      "https://api.cloudinary.com/v1_1/loadingthelife/image/upload",
+      {
+        method: "POST",
+        body: fData,
+      }
+    ).then((r) => r.json());
+
     setfiles([
       ...files,
-      { id: e.target.files[0].name, file: e.target.files[0] },
+      {
+        id: e.target.files[0].name?.split(".")[0],
+        file: e.target.files[0],
+        uri: data.secure_url,
+      },
     ]);
+
     e.target.value = null;
   };
 

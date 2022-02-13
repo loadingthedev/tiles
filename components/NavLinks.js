@@ -18,18 +18,6 @@ const NavLinks = () => {
             <i className="fa fa-angle-down" onClick={handleDropdownStatus}></i>
           </>
         </Link>
-        <ul className="dropdown-list">
-          <li>
-            <Link href="/">
-              <a>Home One</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/index-2">
-              <a>Home Two</a>
-            </Link>
-          </li>
-        </ul>
       </li>
       <li>
         <ScrollLink
@@ -68,7 +56,7 @@ const NavLinks = () => {
           Pricing
         </ScrollLink>
       </li>
-      <li className="dropdown">
+      {/* <li className="dropdown">
         <Link href="/news">
           <>
             <a>News</a>
@@ -87,7 +75,7 @@ const NavLinks = () => {
             </Link>
           </li>
         </ul>
-      </li>
+      </li> */}
     </ul>
   );
 };

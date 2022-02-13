@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import NavLinks from "./NavLinks";
-
 import headerLogo from "../public/img/logo.png";
 import Image from "next/image";
 import Link from "next/link";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { LoginUserAtom } from "../lib/recoil-atoms";
 
 const HeaderHome = (props) => {
+  // const user = useRecoilValue(LoginUserAtom);
+  const [user, setUser] = useRecoilState(LoginUserAtom);
   const [sticky, setSticky] = useState(false);
-
   const handleScroll = () => {
     if (window.scrollY > 70) {
       setSticky(true);
@@ -17,6 +19,7 @@ const HeaderHome = (props) => {
   };
 
   useEffect(() => {
+    const user = "";
     window.addEventListener("scroll", handleScroll);
     mobileMenu();
     return () => {
@@ -47,9 +50,11 @@ const HeaderHome = (props) => {
   };
 
   return (
-    <header className={`header ${props.extraClassName}`}>
+    <header className={`header `}>
       <div
-        className={`main-header ${sticky === true ? "sticky fadeInDown" : " "}`}
+        className={`main-header ${
+          sticky === true ? "sticky fadeInDown" : " "
+        } ${props.extraClassName}`}
       >
         <div className="main-menu-wrap">
           <div className="container">
@@ -57,13 +62,14 @@ const HeaderHome = (props) => {
               <div className="col-xl-3 col-lg-3 col-md-4 col-6">
                 <div className="logo">
                   <a href="/">
-                    <Image src={headerLogo} alt="jironis" />
+                    {/* <Image src={headerLogo} alt="jironis" /> */}
+                    <p style={{ fontSize: 35, marginTop: 20 }}>StickPix</p>
                   </a>
                 </div>
               </div>
               <div className="col-xl-6 col-lg-6 col-md-4 col-6 menu-button">
                 <div className="menu--inner-area clearfix">
-                  <div className="menu-wraper">
+                  <div className={`menu-wraper `}>
                     <nav>
                       <div className="header-menu">
                         <div
@@ -80,12 +86,46 @@ const HeaderHome = (props) => {
               </div>
               <div className="col-lg-3 col-md-4 col-sm-5 d-md-block d-none">
                 <div className="urgent-call text-right">
-                  {/* <a href="#" className="btn">
-                    Lets Go
-                  </a> */}
-                  <Link href="/review">
-                    <a className="btn"> Lets Go</a>
-                  </Link>
+                  {user ? (
+                    <>
+                      {props.page === "review" ? (
+                        <>
+                          <Link href="/checkout">
+                            <a className="checkOutBtn">CheckOut</a>
+                          </Link>
+                        </>
+                      ) : (
+                        <>
+                          {/* <span style={{ color: "#000" }}>Welcome</span> */}
+                          <Link href="/review">
+                            <a
+                              className="callActionBtn"
+                              style={{ color: "#000" }}
+                            >
+                              {user?.user?.first_name}
+                            </a>
+                          </Link>
+                          <Link href="/logout">
+                            <a
+                              className="callActionBtn"
+                              style={{ color: "#000", marginLeft: "1rem" }}
+                            >
+                              logout
+                            </a>
+                          </Link>
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    <Link href="/signin">
+                      <a
+                        className="callActionBtn"
+                        style={{ paddingLeft: "0.7rem", color: "#000" }}
+                      >
+                        Login
+                      </a>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
