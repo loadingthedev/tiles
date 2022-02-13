@@ -1,5 +1,4 @@
- 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import MobileMenu from "../components/MobileMenu";
 import Header from "../components/Header";
@@ -7,8 +6,15 @@ import { Card, Col, Form } from "react-bootstrap";
 import { Button } from "react-scroll";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  confirmOrderAtom,
+  LoginUserAtom,
+  OrderAtom,
+} from "../lib/recoil-atoms";
 
 const checkout = () => {
+  const user = useRecoilValue(LoginUserAtom);
   const [addForm, setAddForm] = useState({
     add1: "",
     add2: "",
@@ -16,11 +22,16 @@ const checkout = () => {
     state: "",
     zip: "",
   });
+  const [isorderConfirm, setIsorderConfirm] = useState(false);
+  const orderDetails = useRecoilValue(OrderAtom);
+  const [conOrder, setConOrder] = useRecoilState(confirmOrderAtom);
   const router = useRouter();
 
   const BASE_URI = "https://tilesobz.herokuapp.com";
 
   function loadRazorpay() {
+    const orderAmount =
+      orderDetails?.images?.length * Number(orderDetails?.price);
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
     script.onerror = () => {
@@ -32,7 +43,9 @@ const checkout = () => {
         // const result = await axios.post("/api/order/create", {
         //   amount: orderAmount + "00",
         // });
-        const result = await axios.get(`${BASE_URI}/api/order/create`);
+        const result = await axios.post(`${BASE_URI}/api/order/create`, {
+          amount: orderAmount + "00",
+        });
         const { amount, id: order_id, currency } = result.data;
         // const {
         //   data: { key: razorpayKey },
@@ -40,10 +53,10 @@ const checkout = () => {
 
         const options = {
           key: "rzp_test_rBDudTLHXmz33C",
-          amount: "2000",
+          amount: amount,
           currency: currency,
-          name: "example name",
-          description: "example transaction",
+          name: user.user.name,
+          description: "StickTiles",
           order_id: order_id,
           handler: async function (response) {
             const result = await axios.post(`${BASE_URI}/api/order/callback`, {
@@ -51,15 +64,20 @@ const checkout = () => {
               razorpayPaymentId: response.razorpay_payment_id,
               razorpayOrderId: response.razorpay_order_id,
               razorpaySignature: response.razorpay_signature,
+              ...addForm,
+              images: orderDetails.images,
+              user: user.user._id,
             });
             alert(result.data.msg);
-            router.push("/");
+            setConOrder(result.data.data);
+            setIsorderConfirm(true);
+
             // fetchOrders();
           },
           prefill: {
-            name: "example name",
-            email: "email@example.com",
-            contact: "111111",
+            name: user.user.name,
+            email: user.user.email,
+            contact: user.user.mobile,
           },
           notes: {
             address: "example address",
@@ -68,8 +86,6 @@ const checkout = () => {
             color: "#80c0f0",
           },
         };
-
-        // setLoading(false);
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
       } catch (err) {
@@ -80,15 +96,27 @@ const checkout = () => {
     document.body.appendChild(script);
   }
 
+  useEffect(() => {
+    if (isorderConfirm) {
+      router.push("/confirmation");
+    }
+  }, [isorderConfirm]);
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/signin");
+    }
+  }, []);
+
   const handleChange = (name) => (e) => {
     setAddForm({ ...addForm, [name]: e.target.value });
   };
- 
+
   return (
     <Layout pageTitle="Robin Tiles">
       <Header />
       <MobileMenu />
- 
+
       <section style={{ paddingTop: 74, background: "#CAD3C8" }}>
         <div
           className="container min-vh-100 p-5"
@@ -167,10 +195,13 @@ const checkout = () => {
                         justifyContent: "space-between",
                       }}
                     >
-                      <span>10 Tile</span>
+                      <span>{orderDetails?.images?.length} Tile</span>
                       <div className="">
                         <span>Rs.</span>
-                        <span>1000</span>
+                        <span>
+                          {orderDetails?.images?.length *
+                            Number(orderDetails?.price)}
+                        </span>
                       </div>
                     </div>
                     <div
@@ -193,7 +224,11 @@ const checkout = () => {
                     >
                       <strong>Total</strong>
                       <div>
-                        <span>Rs.1000</span>
+                        <span>
+                          Rs.{" "}
+                          {orderDetails?.images?.length *
+                            Number(orderDetails?.price)}
+                        </span>
                       </div>
                     </div>
                     <button
@@ -207,7 +242,6 @@ const checkout = () => {
                 </div>
               </Card.Body>
             </Card>
- 
           </div>
         </div>
       </section>
