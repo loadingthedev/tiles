@@ -106,7 +106,7 @@ const HeaderHome = (props) => {
                               className="callActionBtn"
                               style={{ color: "#000" }}
                             >
-                              {user?.user?.name.toUpperCase()}
+                              {user?.user?.name?.toUpperCase()}
                             </a>
                           </Link>
                           <Link href="#">
