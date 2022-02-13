@@ -28,6 +28,10 @@ const HeaderHome = (props) => {
     };
   });
 
+  const logout = () => {
+    setUser(null);
+  };
+
   const mobileMenu = () => {
     document
       .querySelector(".side-menu__toggler")
@@ -97,33 +101,42 @@ const HeaderHome = (props) => {
                       ) : (
                         <>
                           {/* <span style={{ color: "#000" }}>Welcome</span> */}
-                          <Link href="/review">
+                          <Link href="#">
                             <a
                               className="callActionBtn"
                               style={{ color: "#000" }}
                             >
-                              {user?.user?.first_name}
+                              {user?.user?.name.toUpperCase()}
                             </a>
                           </Link>
-                          <Link href="/logout">
-                            <a
-                              className="callActionBtn"
-                              style={{ color: "#000", marginLeft: "1rem" }}
+                          <Link href="#">
+                            <button
+                              className="btn"
+                              id="btn-login"
+                              onClick={logout}
+                              style={{
+                                color: "#000",
+                                marginLeft: "1rem",
+                                borderRadius: 20,
+                              }}
                             >
                               logout
-                            </a>
+                            </button>
                           </Link>
                         </>
                       )}
                     </>
                   ) : (
                     <Link href="/signin">
-                      <a
-                        className="callActionBtn"
-                        style={{ paddingLeft: "0.7rem", color: "#000" }}
+                      <button
+                        className="btn"
+                        id="btn-login"
+                        style={{
+                          borderRadius: 20,
+                        }}
                       >
                         Login
-                      </a>
+                      </button>
                     </Link>
                   )}
                 </div>

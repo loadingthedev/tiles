@@ -41,18 +41,23 @@ export default function SignIn() {
         "Content-Type": "application/json",
       };
 
-      const res = await axios.post(
-        "https://tilesobz.herokuapp.com/api/auth/login",
-        {
-          email: form.email,
-          password: form.password,
-        },
-        headers
-      );
-      if (res.status === 200) {
-        localStorage.setItem("user", JSON.stringify(res?.data?.user));
-        setUser(res.data);
-        router.push("/");
+      try {
+        const res = await axios.post(
+          "https://tilesobz.herokuapp.com/api/auth/login",
+          // "http://localhost:4000/api/auth/login",
+          {
+            email: form.email,
+            password: form.password,
+          },
+          headers
+        );
+        if (res.status === 200) {
+          localStorage.setItem("user", JSON.stringify(res?.data?.user));
+          setUser(res.data);
+          router.push("/");
+        }
+      } catch (error) {
+        alert("Invalid credentials");
       }
     }
   };

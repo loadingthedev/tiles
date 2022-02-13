@@ -1,4 +1,6 @@
+import axios from "axios";
 import Link from "next/link";
+import { Router, useRouter } from "next/router";
 import React, { useState } from "react";
 import Header from "../components/Header";
 import Layout from "../components/Layout";
@@ -7,17 +9,24 @@ const Signup = () => {
   const [form, setForm] = useState({
     email: "",
     password: "",
-    checked: false,
+    checkbox: false,
     name: "",
+    mobile: "",
     confirm_password: "",
   });
+  const router = useRouter();
   const [errMsg, setErrMsg] = useState(null);
+  const [sucMsg, setsucMsg] = useState(null);
 
   const handleChange = (name) => (e) => {
     if (errMsg) {
       setErrMsg(null);
     }
-    setForm({ ...form, [name]: e.target.value });
+    if (name === "checkbox") {
+      setForm({ ...form, [name]: e.target.checked });
+    } else {
+      setForm({ ...form, [name]: e.target.value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -27,18 +36,34 @@ const Signup = () => {
         "Content-Type": "application/json",
       };
 
-      const res = await axios.post(
-        "https://tilesobz.herokuapp.com/api/auth/login",
-        {
-          email: form.email,
-          password: form.password,
-        },
-        headers
-      );
-      if (res.status === 200) {
-        localStorage.setItem("user", JSON.stringify(res?.data?.user));
-        setUser(res.data);
-        router.push("/");
+      //   {
+      //     "name":"Aftab",
+      //     "mobile":"9990353412","email":"admin@tiles.com","password":"123456"
+      // }
+
+      try {
+        const res = await axios.post(
+          "https://tilesobz.herokuapp.com/api/user/register",
+          {
+            name: form.name,
+            email: form.email,
+            password: form.password,
+            mobile: form.mobile,
+          },
+          headers
+        );
+        if (res.status === 201) {
+          // localStorage.setItem("user", JSON.stringify(res?.data?.user));
+          // setUser(res.data);
+          setsucMsg("User Created Now please Signin");
+          setTimeout(() => {
+            router.push("/signin");
+          }, 1000);
+        }
+      } catch (error) {
+        // console.log(error);
+        setsucMsg(null);
+        setErrMsg("user Already created");
       }
     }
   };
@@ -69,6 +94,11 @@ const Signup = () => {
       }
     }
 
+    if (!form.checkbox) {
+      setErrMsg("Please Accept term and Conditon");
+      return false;
+    }
+
     return true;
   };
 
@@ -83,6 +113,11 @@ const Signup = () => {
             {errMsg && (
               <div className="alert alert-danger" role="alert">
                 {errMsg}
+              </div>
+            )}
+            {sucMsg && (
+              <div className="alert alert-success" role="alert">
+                {sucMsg}
               </div>
             )}
             <hr />
@@ -116,6 +151,24 @@ const Signup = () => {
                   name="email"
                   onChange={handleChange("email")}
                   placeholder="Email Address"
+                  required="required"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    {/* <i class="fa fa-paper-plane"></i> */}
+                    <i class="fa-solid fa-mobile"></i>
+                  </span>
+                </div>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="mobile"
+                  onChange={handleChange("mobile")}
+                  placeholder="moblile number"
                   required="required"
                 />
               </div>
