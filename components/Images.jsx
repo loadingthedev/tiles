@@ -2,14 +2,18 @@ import Image from "next/image";
 import React from "react";
 import Upload from "./Upload";
 import blackTile from "../public/img/tiles/classic.svg";
-import { useRecoilValue } from "recoil";
-import { frameAtom } from "../lib/recoil-atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { frameAtom, pFilesAtom } from "../lib/recoil-atoms";
 import { MdDelete } from "react-icons/md";
 
 function Images({ url }) {
   const frame = useRecoilValue(frameAtom);
-
-  const removeframe = (name) => {};
+  const [previews, setPreviews] = useRecoilState(pFilesAtom);
+  const removeframe = (name) => {
+    console.log(name);
+    const filteredPrev = previews.filter((item) => item.id !== name.id);
+    setPreviews(filteredPrev);
+  };
 
   return (
     <>
@@ -24,7 +28,7 @@ function Images({ url }) {
           height={250}
           className="TileFrame"
         />
-        <span className="removeBtn" onClick={() => removeframe(url.name)}>
+        <span className="removeBtn" onClick={() => removeframe(url)}>
           <MdDelete />
         </span>
         {/* <img src="img/tiles/classic.svg" alt="" className="TileFrame" /> */}
