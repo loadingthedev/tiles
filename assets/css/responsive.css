@@ -684,7 +684,38 @@
     padding-bottom: 1rem;
     grid-template-columns: repeat(1, 1fr);
   }
+  /* .TileSelectDrawer {
+    flex-direction: row;
+  }
+  .TileSelectDrawer .tileText {
+    display: none !important;
+  }
+  .TileSelectDrawer button {
+    display: none !important;
+  }
 
+  .TileSelectDrawer {
+    /* height: 80% !important; */
+  /* } */
+
+  div#drawer {
+    flex-direction: row !important;
+    justify-content: center;
+  }
+  /* div#drawer .tileText {
+    display: none !important;
+  } */
+  div#drawer button {
+    display: none !important;
+  }
+
+  #mBtn {
+    display: flex !important;
+  }
+
+  .TiteThumb {
+    flex-direction: column;
+  }
   .logo img {
     max-width: 100px;
   }
