@@ -12,12 +12,12 @@ const NavLinks = () => {
   return (
     <ul className="main-nav__navigation-box">
       <li className="dropdown">
-        <Link href="/">
-          <>
-            <a>Home</a>
-            <i className="fa fa-angle-down" onClick={handleDropdownStatus}></i>
-          </>
-        </Link>
+        {/* <Link href="/"> */}
+        {/* <> */}
+        <a href="/">Home</a>
+        {/* <i className="fa fa-angle-down" onClick={handleDropdownStatus}></i> */}
+        {/* </> */}
+        {/* </Link> */}
       </li>
       <li>
         <ScrollLink

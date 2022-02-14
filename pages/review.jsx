@@ -7,40 +7,51 @@ import Layout from "../components/Layout";
 import MobileMenu from "../components/MobileMenu";
 import Upload from "../components/Upload";
 import Images from "../components/Images";
-import { filesAtom, frameAtom, pFilesAtom } from "../lib/recoil-atoms";
+import {
+  filesAtom,
+  frameAtom,
+  OrderAtom,
+  pFilesAtom,
+} from "../lib/recoil-atoms";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const tileThumb = [
   {
     name: "classic",
     path: "/img/title-thumb/classic-thumb.png",
+    price: "200",
   },
   {
     name: "bold",
     path: "/img/title-thumb/bold-thumb.png",
+    price: "200",
   },
   {
     name: "ever",
     path: "/img/title-thumb/ever-thumb.png",
+    price: "200",
   },
   {
     name: "clean",
     path: "/img/title-thumb/clean-thumb.png",
+    price: "200",
   },
   {
     name: "edge",
     path: "/img/title-thumb/clean-thumb.png",
+    price: "200",
   },
 ];
 
 export default function review() {
-  const files = useRecoilValue(filesAtom);
+  // const files = useRecoilValue(filesAtom);
   const [previews, setPreviews] = useRecoilState(pFilesAtom);
+  const [files, setFiles] = useRecoilState(filesAtom);
   // const [previews, setPreviews] = useState([]);
   const [frame, setFrame] = useRecoilState(frameAtom);
-
-  const [show, setShow] = useState(false);
-  const [modalShow, setModalShow] = useState(false);
+  const router = useRouter();
+  const [orderState, setOrderState] = useRecoilState(OrderAtom);
 
   useEffect(() => {
     if (files) {
@@ -52,17 +63,40 @@ export default function review() {
           const reader = new FileReader();
           reader.onloadend = () => {
             setPreviews([...previews, { id: file.id, file: reader.result }]);
-            // setPreviews([...previews, { id: file.id, file: file.dataUrl }]);
           };
           reader.readAsDataURL(file.file);
         }
       });
     } else {
       setPreviews(null);
+      setFiles([]);
     }
+    return () => {
+      // setPreviews([]);
+    };
     // console.log(previews);
     // console.log("files", files);
   }, [files]);
+
+  useEffect(() => {
+    setOrderState(null);
+  }, []);
+
+  const checkOut = () => {
+    setOrderState(null);
+    if (previews.length > 0) {
+      let images = previews.map((i) => i.file);
+      const order = {
+        TileType: frame,
+        price: tileThumb?.filter((i) => i.name === frame)[0].price,
+        images,
+      };
+      setOrderState(order);
+      router.push("/checkout");
+    } else {
+      alert("Please Atleast select a Tile");
+    }
+  };
 
   return (
     <Layout pageTitle="Robin Tiles">
@@ -83,6 +117,15 @@ export default function review() {
                   <span className="tileText">{id.name}</span>
                 </div>
               ))}
+              <div className="d-flex justify-content-center align-items-center">
+                <button
+                  className="btn"
+                  onClick={checkOut}
+                  style={{ borderRadius: 20, width: 200, marginLeft: 20 }}
+                >
+                  CheckOut
+                </button>
+              </div>
             </div>
           </Col>
           <Col
@@ -92,7 +135,7 @@ export default function review() {
             className="d-flex flex-column justify-content-center align-items-center"
           >
             {previews.length > 0 ? (
-              <div className="TilesConatiner">
+              <div className="TilesConatiner" id="TilesCon">
                 {previews.map((i, index) => (
                   <Images url={i} key={index} />
                 ))}
