@@ -106,7 +106,7 @@ export default function review() {
       <section style={{ paddingTop: 74 }}>
         <Row className="tilesContainer">
           <Col md={3} sm={6}>
-            <div className="h-100  TileSelectDrawer">
+            <div className="h-100  TileSelectDrawer" id="drawer">
               {tileThumb.map((id, idx) => (
                 <div
                   className={`TiteThumb ${frame === id.name && "activeTile"}`}
@@ -131,7 +131,7 @@ export default function review() {
           <Col
             md={9}
             sm={6}
-            style={{ backgroundColor: "#eee" }}
+            style={{ backgroundColor: "#eee", minHeight: "80%" }}
             className="d-flex flex-column justify-content-center align-items-center"
           >
             {previews.length > 0 ? (
@@ -149,6 +149,24 @@ export default function review() {
               </>
             )}
           </Col>
+          <div
+            className="d-none justify-content-center align-items-center w-100"
+            id="mBtn"
+          >
+            <button
+              className="btn"
+              onClick={checkOut}
+              style={{
+                color: "#fff",
+                width: "100%",
+                background: "#000",
+                borderRadius: 0,
+                border: "none",
+              }}
+            >
+              CheckOut
+            </button>
+          </div>
         </Row>
       </section>
     </Layout>
