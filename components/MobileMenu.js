@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import NavLinks from "./NavLinks";
 
@@ -20,13 +21,26 @@ const MobileMenu = () => {
         </nav>
         <div className="side-menu__sep"></div>
         <div className="side-menu__content">
-          <p>
+          {/* <p>
             Lorem Ipsum is simply dummy text the printing and setting industry.
             Lorm Ipsum has been the industry's stanard dummy text ever.
-          </p>
+          </p> */}
+          <div className="">
+            <Link href="/signin">
+              <button className="btn mx-2" id="mobileBtn">
+                Login
+              </button>
+            </Link>
+            <Link href="/signup">
+              <button className="btn" id="mobileBtn">
+                Signup
+              </button>
+            </Link>
+          </div>
           <p>
-            <a href="mailto:needhelp@apton.com">needhelp@apton.com</a> <br />
-            <a href="tel:888-999-0000">888 999 0000</a>
+            <a href="mailto:contact@stickpix.com">contact@stickpix.com</a>{" "}
+            <br />
+            {/* <a href="tel:888-999-0000">888 999 0000</a> */}
           </p>
           <div className="side-menu__social">
             <a href="#">
