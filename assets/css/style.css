@@ -3545,3 +3545,8 @@ h1 span {
 #btn-login:hover {
   color: white;
 }
+
+#mobileBtn {
+  background-color: #000;
+  color: #fff;
+}
