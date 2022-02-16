@@ -156,7 +156,13 @@ export default function review() {
             <button
               className="btn"
               onClick={checkOut}
-              style={{ borderRadius: 20, width: 200, marginLeft: 20 }}
+              style={{
+                color: "#fff",
+                width: "100%",
+                background: "#000",
+                borderRadius: 0,
+                border: "none",
+              }}
             >
               CheckOut
             </button>
