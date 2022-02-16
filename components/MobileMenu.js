@@ -1,8 +1,14 @@
 import Link from "next/link";
 import React from "react";
+import { useRecoilState } from "recoil";
+import { LoginUserAtom } from "../lib/recoil-atoms";
 import NavLinks from "./NavLinks";
 
 const MobileMenu = () => {
+  const [user, setUser] = useRecoilState(LoginUserAtom);
+  const logout = () => {
+    setUser(null);
+  };
   return (
     <div className="side-menu__block">
       <div className="side-menu__block-overlay custom-cursor__overlay">
@@ -26,16 +32,24 @@ const MobileMenu = () => {
             Lorm Ipsum has been the industry's stanard dummy text ever.
           </p> */}
           <div className="">
-            <Link href="/signin">
-              <button className="btn mx-2" id="mobileBtn">
-                Login
+            {!user ? (
+              <>
+                <Link href="/signin">
+                  <button className="btn mx-2" id="mobileBtn">
+                    Login
+                  </button>
+                </Link>
+                <Link href="/signup">
+                  <button className="btn" id="mobileBtn">
+                    Signup
+                  </button>
+                </Link>
+              </>
+            ) : (
+              <button className="btn" id="mobileBtn" onClick={logout}>
+                Logout
               </button>
-            </Link>
-            <Link href="/signup">
-              <button className="btn" id="mobileBtn">
-                Signup
-              </button>
-            </Link>
+            )}
           </div>
           <p>
             <a href="mailto:contact@stickpix.com">contact@stickpix.com</a>{" "}
